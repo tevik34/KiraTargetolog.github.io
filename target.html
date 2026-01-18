@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Targetolog | Premium</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+--burgundy:#6b1f2b;
+--choco:#2b1d1d;
+--nude:#e6cfc3;
+--black:#000;
+--white:#fff;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:var(--black);color:var(--white);overflow-x:hidden}
+
+/* HEADER */
+header{
+position:fixed;top:0;width:100%;
+padding:15px 30px;
+display:flex;justify-content:space-between;align-items:center;
+background:rgba(0,0,0,.6);
+backdrop-filter:blur(10px);
+z-index:100;
+}
+header nav a{
+margin-left:20px;
+color:white;text-decoration:none;
+transition:.3s;
+}
+header nav a:hover{color:var(--nude)}
+
+/* LANG */
+.lang-switch button{
+margin-left:10px;
+background:none;
+border:1px solid white;
+color:white;
+padding:4px 8px;
+cursor:pointer;
+border-radius:6px;
+}
+
+/* FLOATING CTA */
+.floating-btn{
+position:fixed;
+right:20px;bottom:20px;
+background:linear-gradient(120deg,var(--burgundy),var(--nude));
+color:black;
+padding:16px 26px;
+border-radius:50px;
+font-weight:600;
+text-decoration:none;
+z-index:200;
+animation:pulse 2s infinite;
+}
+
+/* CART */
+.cart-btn{
+position:fixed;
+left:20px;bottom:20px;
+background:var(--burgundy);
+padding:16px;
+border-radius:50%;
+cursor:pointer;
+z-index:200;
+}
+.cart-btn span{
+position:absolute;
+top:-5px;right:-5px;
+background:var(--nude);
+color:black;
+width:22px;height:22px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:12px;
+font-weight:600;
+}
+
+/* HERO */
+.hero{
+height:100vh;
+position:relative;
+}
+.hero-images img{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:0;
+transition:2s;
+}
+.hero-images img.active{opacity:1}
+.hero-overlay{
+position:absolute;
+inset:0;
+background:linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.45));
+}
+.hero-content{
+position:relative;
+z-index:2;
+top:35%;
+padding:0 30px;
+max-width:700px;
+}
+.hero h1{font-size:52px;margin-bottom:20px}
+
+/* BUTTONS */
+.btn-glow{
+display:inline-block;
+padding:14px 32px;
+border-radius:40px;
+background:linear-gradient(120deg,var(--burgundy),var(--nude),var(--burgundy));
+background-size:200%;
+color:black;
+font-weight:600;
+text-decoration:none;
+margin-right:15px;
+transition:.4s;
+}
+.btn-glow:hover{background-position:right}
+
+/* SECTIONS */
+.section{padding:120px 30px}
+.reveal{opacity:0;transform:translateY(50px);transition:1s}
+.reveal.active{opacity:1;transform:translateY(0)}
+
+/* SERVICES */
+.services{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:30px;
+}
+.service-card{
+background:linear-gradient(160deg,var(--choco),var(--burgundy));
+padding:40px;
+border-radius:30px;
+min-height:420px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+transition:.5s;
+}
+.service-card:hover{
+transform:translateY(-15px) scale(1.03);
+}
+.service-card .price{
+color:var(--nude);
+font-size:22px;
+margin:15px 0;
+}
+.buy{
+background:white;
+color:black;
+padding:12px;
+border-radius:30px;
+text-align:center;
+cursor:pointer;
+transition:.3s;
+}
+.buy:active{transform:scale(.9)}
+
+/* FORM */
+form{
+max-width:500px;
+margin:auto;
+display:flex;
+flex-direction:column;
+}
+form input,textarea{
+padding:14px;
+margin-bottom:14px;
+border:none;
+border-radius:12px;
+}
+form button{
+padding:14px;
+border:none;
+border-radius:30px;
+background:var(--burgundy);
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+.services{grid-template-columns:1fr}
+.hero h1{font-size:38px}
+}
+
+/* ANIM */
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.08)}
+100%{transform:scale(1)}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div>TARGETOLOG</div>
+<nav>
+<a href="#services" data-i18n="nav_services">Услуги</a>
+<a href="#support" data-i18n="nav_support">Поддержка</a>
+</nav>
+<div class="lang-switch">
+<button onclick="setLang('ru')">RU</button>
+<button onclick="setLang('ua')">UA</button>
+<button onclick="setLang('en')">EN</button>
+<button onclick="setLang('pl')">PL</button>
+</div>
+</header>
+
+<a href="https://t.me/USERNAME" target="_blank" class="floating-btn" data-i18n="consult">
+Получить консультацию
+</a>
+
+<div class="cart-btn">
+<i class="fas fa-shopping-cart"></i>
+<span id="cartCount">0</span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-images">
+<img src="https://scontent.fktw6-1.fna.fbcdn.net/v/t39.30808-6/616533900_122109161343182391_3818482704778538077_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=127cfc&_nc_ohc=SvNEuP1OMZsQ7kNvwEBNbHR&_nc_oc=AdmmbV3nZlID6jwQvufPp6O-wbrjk5uOib6SwtJHkapfOiImly6lrPbhkdYDN7vFGSDyO2ePtumFVLxOmnyrWrhO&_nc_zt=23&_nc_ht=scontent.fktw6-1.fna&_nc_gid=XJS1m-f8d9b01akvqDOGbg&oh=00_Afp0DU3dg13O7aWulHXUIg1H2puSrHaoQC0hQPYvSg8H9g&oe=69731798" class="active">
+<img src="https://scontent.fktw6-1.fna.fbcdn.net/v/t39.30808-6/617102998_122109161469182391_3743690571727169931_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Cm_Q_jIS_7YQ7kNvwH50j7Y&_nc_oc=Adk2kBYY3PpKJoc9L7Fj4zftIv8AHyYicC1W-RCfVP-lmr4iL3kZVqocAPT1px6bTgqAevJQBqkZISONhrcDhse4&_nc_zt=23&_nc_ht=scontent.fktw6-1.fna&_nc_gid=dG_uZ757VYXhnRiErVfYrQ&oh=00_AfpDSsprN4CjvRnLTUARvhSgYGoHQ3a1AAHgYajiO-NPwA&oe=69731073">
+<img src="https://scontent.fktw6-1.fna.fbcdn.net/v/t39.30808-6/616366016_122109161271182391_5373043983670227139_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=2nITTjxcNTEQ7kNvwEb40O1&_nc_oc=AdlsHBtPuG9AXd5JLZ3TcBC6wQYPw7N8Dtty88hHobIFVN3xmisp5wG4Vwtry19pezM28yV4uBJzEOZ1HBLiKXcm&_nc_zt=23&_nc_ht=scontent.fktw6-1.fna&_nc_gid=6o1OZJJVcD-NED3DRJnzxA&oh=00_AfoLZdY_2GKkNPV7g17NDvz8i4rHmqB95816CV1bq2lKtg&oe=6972FD91">
+</div>
+<div class="hero-overlay"></div>
+<div class="hero-content reveal">
+<h1 data-i18n="hero_title">Таргет, который продаёт</h1>
+<a href="#services" class="btn-glow" data-i18n="btn_services">Смотреть услуги</a>
+<a href="about.html" class="btn-glow" data-i18n="btn_about">Обо мне</a>
+</div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="section reveal">
+<h2 data-i18n="services">Услуги</h2>
+<div class="services">
+
+<div class="service-card">
+<h3>Запуск рекламы</h3>
+<p>Стратегия, аналитика, запуск</p>
+<div class="price">200$</div>
+<a href="https://t.me/USERNAME" target="_blank" class="btn-glow">Консультация</a>
+<div class="buy" onclick="addToCart()">Добавить в корзину</div>
+</div>
+
+<div class="service-card">
+<h3>Ведение рекламы</h3>
+<p>Оптимизация и масштабирование</p>
+<div class="price">300$/мес</div>
+<a href="https://t.me/USERNAME" target="_blank" class="btn-glow">Консультация</a>
+<div class="buy" onclick="addToCart()">Добавить в корзину</div>
+</div>
+
+<div class="service-card">
+<h3>Аудит рекламы</h3>
+<p>Разбор ошибок и точек роста</p>
+<div class="price">100$</div>
+<a href="https://t.me/USERNAME" target="_blank" class="btn-glow">Консультация</a>
+<div class="buy" onclick="addToCart()">Добавить в корзину</div>
+</div>
+
+</div>
+</section>
+
+<!-- SUPPORT -->
+<section id="support" class="section reveal">
+<h2 data-i18n="support">Поддержка и предложения</h2>
+<form id="tgForm">
+<input placeholder="Имя" required>
+<input placeholder="Контакт" required>
+<textarea placeholder="Сообщение" required></textarea>
+<button type="submit">Отправить</button>
+</form>
+</section>
+
+<script>
+/* HERO SLIDER */
+const imgs=document.querySelectorAll(".hero-images img");
+let i=0;
+setInterval(()=>{
+imgs[i].classList.remove("active");
+i=(i+1)%imgs.length;
+imgs[i].classList.add("active");
+},5000);
+
+/* REVEAL */
+document.addEventListener("scroll",()=>{
+document.querySelectorAll(".reveal").forEach(el=>{
+if(el.getBoundingClientRect().top<window.innerHeight-100)
+el.classList.add("active");
+});
+});
+
+/* CART */
+let cartCount=0;
+function addToCart(){
+cartCount++;
+document.getElementById("cartCount").innerText=cartCount;
+}
+
+/* TELEGRAM FORM */
+const BOT_TOKEN="BOT_TOKEN";
+const CHAT_ID="CHAT_ID";
+
+document.getElementById("tgForm").addEventListener("submit",e=>{
+e.preventDefault();
+const d=e.target;
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+chat_id:CHAT_ID,
+text:`📩 Заявка:\nИмя: ${d[0].value}\nКонтакт: ${d[1].value}\nСообщение: ${d[2].value}`
+})
+});
+alert("Отправлено!");
+d.reset();
+});
+
+/* LANG */
+const t={
+ru:{hero_title:"Таргет, который продаёт",services:"Услуги",support:"Поддержка и предложения",consult:"Получить консультацию",btn_services:"Смотреть услуги",btn_about:"Обо мне"},
+en:{hero_title:"Ads that sell",services:"Services",support:"Support & offers",consult:"Get consultation",btn_services:"View services",btn_about:"About me"},
+ua:{hero_title:"Таргет, що продає",services:"Послуги",support:"Підтримка",consult:"Консультація",btn_services:"Послуги",btn_about:"Про мене"},
+pl:{hero_title:"Reklama, która sprzedaje",services:"Usługi",support:"Wsparcie",consult:"Konsultacja",btn_services:"Usługi",btn_about:"O mnie"}
+};
+function setLang(l){
+document.querySelectorAll("[data-i18n]").forEach(el=>{
+el.innerText=t[l][el.dataset.i18n];
+});
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
